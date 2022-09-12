@@ -5,7 +5,7 @@ const app = express();
 
 const io = require("socket.io")(process.env.PORT, {
   cors: {
-    origin: ["http://localhost:3000", "http://socket-test-cyclic.vercel.app"]
+    origin: "*"
   }  
 });
 
