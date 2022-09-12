@@ -1,12 +1,15 @@
 const express = require("express");
-require("dotenv").config();
-
+require("dotenv").config()
+const cors = require("cors");
 const app = express();
+app.use(cors());
 
-const io = require("socket.io")(process.env.PORT, {
-  cors: {
-    origin: "*"
-  }  
+
+const server = app.listen(5000, () => console.log("Server listening on port 5000"));
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "http://localhost:3000"
+    }
 });
 
 io.on("connection", socket => {
@@ -17,10 +20,5 @@ io.on("connection", socket => {
     socket.broadcast.emit("receive-message", message);
   });
 
-  socket.on("end-connection", () => {
-    socket.disconnect
-  })
 });
 
-
-app.listen(8000, () => console.log("Server listening on port 8000"));
